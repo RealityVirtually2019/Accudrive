@@ -15,20 +15,35 @@ ScoreTracker::ScoreTracker() {
 }
 
 void ScoreTracker::AddScore(ScoreFactor factor, double score) {
-    scoreMap[factor] += score;
+    scoreMap[factor] += score * scoreWeightMap[factor];
     LOGI("Score Increased! New score: %f", scoreMap[factor]);
 }
 
 void ScoreTracker::SubtractScore(ScoreFactor factor, double score) {
-    scoreMap[factor] -= score;
+    scoreMap[factor] -= score * scoreWeightMap[factor];
     LOGI("Score Lost... New score: %f", scoreMap[factor]);
 }
 
 double ScoreTracker::CalcTotalScore() {
     double totalScore = 0.0;
-    totalScore += scoreMap[SPEEDING] * scoreWeightMap[SPEEDING];
-    totalScore += scoreMap[PARKING] * scoreWeightMap[PARKING];
-    totalScore += scoreMap[LANE_CHANGE] * scoreWeightMap[LANE_CHANGE];
-    totalScore += scoreMap[TRAFFIC_SIGNAL] * scoreWeightMap[TRAFFIC_SIGNAL];
+    totalScore += scoreMap[SPEEDING];
+    totalScore += scoreMap[PARKING];
+    totalScore += scoreMap[LANE_CHANGE];
+    totalScore += scoreMap[TRAFFIC_SIGNAL];
     return totalScore;
 }
+
+void ScoreTracker::SaveReport() {
+    double totalScore = CalcTotalScore();
+    char  reportBuff [200];
+
+    std::sprintf(reportBuff, "TotalScore:%f\nSpeed Score:%f\nParking:%f\nLane Change:%f\nTraffic Signal:%f\n",
+            totalScore, scoreMap[SPEEDING], scoreMap[PARKING], scoreMap[LANE_CHANGE], scoreMap[TRAFFIC_SIGNAL]);
+    std::string reportString = reportBuff;
+
+    std::ofstream reportOutput;
+    reportOutput.open("report.txt");
+    reportOutput << reportString;
+    reportOutput.close();
+}
+

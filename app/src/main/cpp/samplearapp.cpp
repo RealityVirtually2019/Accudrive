@@ -89,6 +89,7 @@ public:
                 // LOGI("Distance: %f",dist);
                 if(dist<=0.5 && speed_of_car>=0.5){
                     //LOGI("You crossed the red light.");
+                    scoreTracker->AddScore(TRAFFIC_SIGNAL, 100);
                 }
                 if (object->getStatus() == DetectionObject::Status::New || object->getStatus() == DetectionObject::Status::Changed || object->getStatus() == DetectionObject::Status::NotChanged) {
                     std::map<std::shared_ptr<DetectionObject>,std::shared_ptr<ARObject> >::iterator i = arrowMap.find(object);
@@ -156,16 +157,20 @@ class DetectionObjectSampleARApp: public Application {
         detectionObjectListener = std::make_shared<DetectionObjectListener>();
         speedCheckListener = std::make_shared<CheckSpeedingListener>();
         scoreTracker = std::make_shared<ScoreTracker>();
+        detectionObjectListener->SetScoreTracker(scoreTracker);
+        speedCheckListener->SetScoreTracker(scoreTracker);
         Context::get()->getScene().registerDetectionObjectListener(detectionObjectListener);
         Context::get()->getVehicleState().registerSpeedChangeListener(speedCheckListener);
-        //LOGI("DetectionObjectListener registered.");
+        LOGI("ON START COMPLETE");
     }
 
     virtual void onStop() {
         Context::get()->getScene().unregisterDetectionObjectListener(detectionObjectListener);
+        Context::get()->getVehicleState().unregisterSpeedChangeListener(speedCheckListener);
         detectionObjectListener.reset();
-
-        //LOGI("DetectionObjectListener unregistered.");
+        LOGI("FINAL SCORE: %f", scoreTracker->CalcTotalScore());
+        scoreTracker->SaveReport();
+        LOGI("ON STOP COMPLETE");
     }
 private:
     std::shared_ptr<DetectionObjectListener> detectionObjectListener;
