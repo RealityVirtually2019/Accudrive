@@ -7,6 +7,10 @@
 
 #include <memory>
 #include <map>
+#include <iostream>
+#include <fstream>
+#include <string.h>
+
 enum ScoreFactor
 {
     SPEEDING,

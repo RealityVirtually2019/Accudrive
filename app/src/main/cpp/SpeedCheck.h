@@ -13,6 +13,8 @@
 #include <detectionobject.h>
 #include <color.h>
 
+#include "ScoreTracker.h"
+
 #define LOGI(...) ((void)__android_log_print(ANDROID_LOG_INFO, "truear-accudrive", __VA_ARGS__))
 
 using namespace WayRay;
@@ -23,10 +25,10 @@ public:
 
     CheckSpeedingListener();
     void changed(const std::shared_ptr<double> speed);
-
+    void SetScoreTracker(std::shared_ptr<ScoreTracker> tracker);
 private:
     bool isSpeeding = false;
-
+    std::shared_ptr<ScoreTracker> scoreTracker;
 };
 
 
