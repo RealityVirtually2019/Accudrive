@@ -35,3 +35,6 @@ local.properties
 .Trashes
 ehthumbs.db
 Thumbs.db
+app/src/main/.DS_Store
+app/src/.DS_Store
+app/src/main/cpp/.DS_Store
