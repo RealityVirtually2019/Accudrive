@@ -63,15 +63,33 @@ public:
         return 2.0 * earthRadiusKm * asin(sqrt(u * u + cos(lat1r) * cos(lat2r) * v * v));
     }
 
+    void showStop(){
+        std::shared_ptr<ARObject> arObject;
+        if(arObject == nullptr){
+            std::shared_ptr<Mesh> arrowMesh = ResourceHelper::loadMesh("star.obj");
+            std::shared_ptr<ARObject> newArrow = std::make_shared<ARObject>("arObject",Context::get()->getScene().getCamera());
+            newArrow->setMesh(arrowMesh);
+            newArrow->setPose(Pose(0, 0, -10 ));
+            //newArrow->setPose(Pose(1, 0, 0 ));
+            newArrow->setRotation(std::array<float, 3>{{-90.0 ,0.0, 0.0}});
+            newArrow->setScale(std::array<float, 3>{{0.02, 0.02, 0.02}});
+            newArrow->setTexture(std::make_shared<Color>(Color::Palette::Red));
+        }
+        Context::get()->getScene().add(arObject);
+    }
+
     void changed(std::shared_ptr<DetectionObject> object) {
 
         /* CHECK PARKING TIME
          * TIME FOR PARKING DETECTION: 30 SECONDS (CAN BE ADJUSTED ACCORDING TO REQUIREMENTS)
          */
 
+        //int is3DwarningVisible=0;
+
         if(start_park_time>30){
             //LOGI("Your in parking mode");
         }
+
 
         /* FEATURE 1 : TRAFFIC LIGHT VIOLATION CODE START:
          *
@@ -83,19 +101,24 @@ public:
                 //float distance_of_traffic_light_from_car = object->getDistance();
                 double speed_of_car = Context::get()->getVehicleState().getSpeed();
                 // LOGI("Distance: %f",dist);
+
                 if(dist<=0.5 && speed_of_car>=0.5){
-                    //LOGI("You crossed the red light.");
+                    LOGI("You crossed the red light.");
+                    //initHUDModel();
+                    showStop();
+
                 }
+
                 if (object->getStatus() == DetectionObject::Status::New || object->getStatus() == DetectionObject::Status::Changed || object->getStatus() == DetectionObject::Status::NotChanged) {
                     std::map<std::shared_ptr<DetectionObject>,std::shared_ptr<ARObject> >::iterator i = arrowMap.find(object);
                     if (i == arrowMap.end()) {
-                        std::shared_ptr<Mesh> arrowMesh = ResourceHelper::loadMesh("star.obj");
+                        std::shared_ptr<Mesh> arrowMesh = ResourceHelper::loadMesh("stopSign.obj");
                         std::shared_ptr<ARObject> newArrow = std::make_shared<ARObject>(
                                 object->getName() + "_arrow", object);
                         newArrow->setMesh(arrowMesh);
-                        newArrow->setPose(Pose(0.0, 0.0, 2.5));
-                        newArrow->setRotation(std::array<float, 3>{{0.0, 0.0, 0.0}});
-                        newArrow->setScale(std::array<float, 3>{{0.5, 0.5, 0.5}});
+                        newArrow->setPose(Pose(0.0, 0.0, 1.5));
+                        newArrow->setRotation(std::array<float, 3>{{0.0, 270.0, 90.0}});
+                        newArrow->setScale(std::array<float, 3>{{0.25, 0.25, 0.25}});
                         newArrow->setTexture(std::make_shared<Color>(Color::Palette::Red));
                         arrowMap[object] = newArrow;
                         Context::get()->getScene().add(newArrow);
@@ -139,6 +162,39 @@ public:
         /*
          PARKING LOGIC ENDS
          */
+
+
+        if (object->getType() == DetectionObject::Type::ParkingPlace) {
+
+                //double dist = distanceEarth(object->getPose().latitude,object->getPose().longitude,Context::get()->getVehicleState().getPose().latitude,Context::get()->getVehicleState().getPose().longitude);
+
+
+                if (object->getStatus() == DetectionObject::Status::New || object->getStatus() == DetectionObject::Status::Changed || object->getStatus() == DetectionObject::Status::NotChanged) {
+                    std::map<std::shared_ptr<DetectionObject>,std::shared_ptr<ARObject> >::iterator i = arrowMap.find(object);
+                    if (i == arrowMap.end()) {
+                        std::shared_ptr<Mesh> arrowMesh = ResourceHelper::loadMesh("parking.obj");
+                        std::shared_ptr<ARObject> newArrow = std::make_shared<ARObject>(
+                                object->getName() + "_arrow", object);
+                        newArrow->setMesh(arrowMesh);
+                        newArrow->setPose(Pose(0.0, 0.0, 2.5));
+                        newArrow->setRotation(std::array<float, 3>{{90.0, 0.0, 0.0}});
+                        newArrow->setScale(std::array<float, 3>{{0.5, 0.5, 0.5}});
+                        newArrow->setTexture(std::make_shared<Color>(Color::Palette::Red));
+                        arrowMap[object] = newArrow;
+                        Context::get()->getScene().add(newArrow);
+                    }
+                }else if (object->getStatus() == DetectionObject::Status::Disappeared) {
+                    std::map<std::shared_ptr<DetectionObject>,std::shared_ptr<ARObject> >::iterator i = arrowMap.find(object);
+                    if (i != arrowMap.end()) {
+                        std::shared_ptr<ARObject> arrow = i->second;
+                        arrow->setParent(nullptr);
+                        Context::get()->getScene().remove(arrow);
+                        arrowMap.erase(object);
+                    }
+
+            }
+
+        }
     }
     std::map<std::shared_ptr<DetectionObject>, std::shared_ptr<ARObject> > arrowMap;
 
