@@ -16,7 +16,8 @@
         android:debuggable="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:supportsRtl="true" >
+        android:supportsRtl="true"
+        android:testOnly="true" >
         <activity android:name="com.wayray.truear.sdk.api.TrueARActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

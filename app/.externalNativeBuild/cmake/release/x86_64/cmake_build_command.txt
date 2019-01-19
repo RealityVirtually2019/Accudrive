@@ -1,15 +1,15 @@
-Executable : /Users/nivedithag/Library/Android/sdk/cmake/3.6.4111459/bin/cmake
+Executable : /Users/vamsi/Library/Android/sdk/cmake/3.6.4111459/bin/cmake
 arguments : 
--H/Users/nivedithag/Library/Android/sdk/extras/wayray/sdk/sdk_samples/DetectionObjectSample/app/src/main/cpp
--B/Users/nivedithag/Library/Android/sdk/extras/wayray/sdk/sdk_samples/DetectionObjectSample/app/.externalNativeBuild/cmake/release/x86_64
+-H/Users/vamsi/Documents/GitHub/Accudrive/app/src/main/cpp
+-B/Users/vamsi/Documents/GitHub/Accudrive/app/.externalNativeBuild/cmake/release/x86_64
 -DANDROID_ABI=x86_64
 -DANDROID_PLATFORM=android-27
--DCMAKE_LIBRARY_OUTPUT_DIRECTORY=/Users/nivedithag/Library/Android/sdk/extras/wayray/sdk/sdk_samples/DetectionObjectSample/app/build/intermediates/cmake/release/obj/x86_64
+-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=/Users/vamsi/Documents/GitHub/Accudrive/app/build/intermediates/cmake/release/obj/x86_64
 -DCMAKE_BUILD_TYPE=Release
--DANDROID_NDK=/Users/nivedithag/Library/Android/sdk/ndk-bundle
--DCMAKE_TOOLCHAIN_FILE=/Users/nivedithag/Library/Android/sdk/ndk-bundle/build/cmake/android.toolchain.cmake
--DCMAKE_MAKE_PROGRAM=/Users/nivedithag/Library/Android/sdk/cmake/3.6.4111459/bin/ninja
+-DANDROID_NDK=/Users/vamsi/Library/Android/sdk/ndk-bundle
+-DCMAKE_TOOLCHAIN_FILE=/Users/vamsi/Library/Android/sdk/ndk-bundle/build/cmake/android.toolchain.cmake
+-DCMAKE_MAKE_PROGRAM=/Users/vamsi/Library/Android/sdk/cmake/3.6.4111459/bin/ninja
 -GAndroid Gradle - Ninja
--DWAYRAY_SDK=/Users/nivedithag/Library/Android/sdk/extras/wayray/sdk
+-DWAYRAY_SDK=/Users/vamsi/Library/Android/sdk/extras/wayray/sdk
 jvmArgs : 
 

@@ -1,7 +1,7 @@
-#Fri Jan 18 20:19:36 EST 2019
-base.0=/Users/nivedithag/Library/Android/sdk/extras/wayray/sdk/sdk_samples/DetectionObjectSample/app/build/intermediates/transforms/dexMerger/debug/0
+#Sat Jan 19 12:03:58 EST 2019
+base.0=/Users/vamsi/Documents/GitHub/Accudrive/app/build/intermediates/transforms/dexMerger/debug/0
 path.1=classes.dex
 renamed.1=classes2.dex
 path.0=classes.dex
 renamed.0=classes.dex
-base.1=/Users/nivedithag/Library/Android/sdk/extras/wayray/sdk/sdk_samples/DetectionObjectSample/app/build/intermediates/transforms/dexMerger/debug/1
+base.1=/Users/vamsi/Documents/GitHub/Accudrive/app/build/intermediates/transforms/dexMerger/debug/1

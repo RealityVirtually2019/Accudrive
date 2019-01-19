@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/nivedithag/Library/Android/sdk/extras/wayray/sdk/sdk_samples/DetectionObjectSample/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values/values.xml",
+            "outputFile": "/Users/vamsi/Documents/GitHub/Accudrive/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values/values.xml",
             "map": [
                 {
-                    "source": "/Users/nivedithag/Library/Android/sdk/extras/wayray/sdk/sdk_samples/DetectionObjectSample/app/src/main/res/values/strings.xml",
+                    "source": "/Users/vamsi/Documents/GitHub/Accudrive/app/src/main/res/values/strings.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
