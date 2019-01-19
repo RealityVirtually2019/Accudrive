@@ -69,7 +69,7 @@ public:
          */
 
         if(start_park_time>30){
-            LOGI("Your in parking mode");
+            //LOGI("Your in parking mode");
         }
 
         /* FEATURE 1 : TRAFFIC LIGHT VIOLATION CODE START:
@@ -88,13 +88,13 @@ public:
                 if (object->getStatus() == DetectionObject::Status::New || object->getStatus() == DetectionObject::Status::Changed || object->getStatus() == DetectionObject::Status::NotChanged) {
                     std::map<std::shared_ptr<DetectionObject>,std::shared_ptr<ARObject> >::iterator i = arrowMap.find(object);
                     if (i == arrowMap.end()) {
-                        std::shared_ptr<Mesh> arrowMesh = ResourceHelper::loadMesh("arrow.obj");
+                        std::shared_ptr<Mesh> arrowMesh = ResourceHelper::loadMesh("star.obj");
                         std::shared_ptr<ARObject> newArrow = std::make_shared<ARObject>(
                                 object->getName() + "_arrow", object);
                         newArrow->setMesh(arrowMesh);
-                        newArrow->setPose(Pose(0.0, 0.0, 1.5));
+                        newArrow->setPose(Pose(0.0, 0.0, 2.5));
                         newArrow->setRotation(std::array<float, 3>{{90.0, 0.0, 270.0}});
-                        newArrow->setScale(std::array<float, 3>{{1.5, 1.5, 1.5}});
+                        newArrow->setScale(std::array<float, 3>{{0.5, 0.5, 0.5}});
                         newArrow->setTexture(std::make_shared<Color>(Color::Palette::Green));
                         arrowMap[object] = newArrow;
                         Context::get()->getScene().add(newArrow);
