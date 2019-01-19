@@ -70,16 +70,17 @@ public:
     void showStop(){
         std::shared_ptr<ARObject> arObject;
         if(arObject == nullptr){
-            std::shared_ptr<Mesh> arrowMesh = ResourceHelper::loadMesh("star.obj");
+            std::shared_ptr<Mesh> arrowMesh = ResourceHelper::loadMesh("correctedSatr.obj");
             std::shared_ptr<ARObject> newArrow = std::make_shared<ARObject>("arObject",Context::get()->getScene().getCamera());
             newArrow->setMesh(arrowMesh);
             newArrow->setPose(Pose(0, 0, -10 ));
             //newArrow->setPose(Pose(1, 0, 0 ));
-            newArrow->setRotation(std::array<float, 3>{{-90.0 ,0.0, 0.0}});
-            newArrow->setScale(std::array<float, 3>{{0.02, 0.02, 0.02}});
+            newArrow->setRotation(std::array<float, 3>{{90.0 ,0.0, 0.0}});
+            newArrow->setScale(std::array<float, 3>{{0.5, 0.5, 0.5}});
             newArrow->setTexture(std::make_shared<Color>(Color::Palette::Red));
         }
         Context::get()->getScene().add(arObject);
+        LOGI("Displayed");
     }
 
     void changed(std::shared_ptr<DetectionObject> object) {
@@ -118,7 +119,7 @@ public:
                 if (object->getStatus() == DetectionObject::Status::New || object->getStatus() == DetectionObject::Status::Changed || object->getStatus() == DetectionObject::Status::NotChanged) {
                     std::map<std::shared_ptr<DetectionObject>,std::shared_ptr<ARObject> >::iterator i = arrowMap.find(object);
                     if (i == arrowMap.end()) {
-                        std::shared_ptr<Mesh> arrowMesh = ResourceHelper::loadMesh("stopSign.obj");
+                        std::shared_ptr<Mesh> arrowMesh = ResourceHelper::loadMesh("correctedSatr.obj");
                         std::shared_ptr<ARObject> newArrow = std::make_shared<ARObject>(
                                 object->getName() + "_arrow", object);
                         newArrow->setMesh(arrowMesh);
