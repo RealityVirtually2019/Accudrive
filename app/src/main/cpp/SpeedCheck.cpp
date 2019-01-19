@@ -1,9 +1,10 @@
 #include "SpeedCheck.h"
 
 
-CheckSpeedingListener::CheckSpeedingListener(double limit)
+CheckSpeedingListener::CheckSpeedingListener()
 {
-    speedLimit = limit;
+    speedLimit = 50;
+    LOGI("Speed Limit Registered: %f", speedLimit);
 }
 
 void CheckSpeedingListener::changed(const std::shared_ptr<double> speed) {
