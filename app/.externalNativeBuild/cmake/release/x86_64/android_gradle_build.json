@@ -38,6 +38,12 @@
 					"flags" : "  --target=x86_64-none-linux-android27 --gcc-toolchain=/Users/vamsi/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64  -Dtruearapp_EXPORTS -I/Users/vamsi/Library/Android/sdk/extras/wayray/sdk/include  --sysroot /Users/vamsi/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -fno-addrsig -Wa,--noexecstack -Wformat -Werror=format-security -stdlib=libc++  -std=gnu++14 -Wall -Werror -O2 -DNDEBUG  -fPIC    -c ",
 					"src" : "/Users/vamsi/Documents/GitHub/Accudrive/app/src/main/cpp/SpeedCheck.cpp",
 					"workingDirectory" : "/Users/vamsi/Documents/GitHub/Accudrive/app/.externalNativeBuild/cmake/release/x86_64"
+				},
+				
+				{
+					"flags" : "  --target=x86_64-none-linux-android27 --gcc-toolchain=/Users/vamsi/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64  -Dtruearapp_EXPORTS -I/Users/vamsi/Library/Android/sdk/extras/wayray/sdk/include  --sysroot /Users/vamsi/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -fno-addrsig -Wa,--noexecstack -Wformat -Werror=format-security -stdlib=libc++  -std=gnu++14 -Wall -Werror -O2 -DNDEBUG  -fPIC    -c ",
+					"src" : "/Users/vamsi/Documents/GitHub/Accudrive/app/src/main/cpp/ScoreTracker.cpp",
+					"workingDirectory" : "/Users/vamsi/Documents/GitHub/Accudrive/app/.externalNativeBuild/cmake/release/x86_64"
 				}
 			],
 			"output" : "/Users/vamsi/Documents/GitHub/Accudrive/app/build/intermediates/cmake/release/obj/x86_64/libtruearapp.so",
