@@ -69,3 +69,6 @@
 8138	8754	0	/Users/nivedithag/Library/Android/sdk/extras/wayray/sdk/sdk_samples/DetectionObjectSample/app/build/intermediates/cmake/debug/obj/x86_64/libtruearapp.so	a778a8ef6f7d6299
 4	11059	0	CMakeFiles/truearapp.dir/samplearapp.cpp.o	7e0deda65d55bfad
 11061	11958	0	/Users/nivedithag/Library/Android/sdk/extras/wayray/sdk/sdk_samples/DetectionObjectSample/app/build/intermediates/cmake/debug/obj/x86_64/libtruearapp.so	a778a8ef6f7d6299
+2	4433	0	CMakeFiles/truearapp.dir/samplearapp.cpp.o	7e0deda65d55bfad
+2	831	0	CMakeFiles/truearapp.dir/SpeedCheck.cpp.o	63ebbb7558f8823b
+832	975	0	/Users/nivedithag/Library/Android/sdk/extras/wayray/sdk/sdk_samples/DetectionObjectSample/app/build/intermediates/cmake/debug/obj/x86_64/libtruearapp.so	48a7058bd4c6b198

@@ -30,7 +30,8 @@ set_target_properties(lib_truearapi PROPERTIES IMPORTED_LOCATION
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++14 -Wall -Werror")
 
 add_library(truearapp SHARED
-            samplearapp.cpp)
+            samplearapp.cpp
+            SpeedCheck.cpp)
 
 target_include_directories(truearapp PRIVATE
                               ${WAYRAY_SDK}/include)

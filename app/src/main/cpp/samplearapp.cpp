@@ -9,10 +9,10 @@
 #include <map>
 #include <cmath>
 #include <vector>
+#include "SpeedCheck.h"
 
 #define earthRadiusKm 6371.0
 
-#define LOGI(...) ((void)__android_log_print(ANDROID_LOG_INFO, "truear-detectionobject", __VA_ARGS__))
 
 
 using namespace WayRay;
@@ -95,7 +95,9 @@ class DetectionObjectSampleARApp: public Application {
 
     virtual void onStart() {
         detectionObjectListener = std::make_shared<DetectionObjectListener>();
+        std::shared_ptr<CheckSpeedingListener> speedCheckListener = std::make_shared<CheckSpeedingListener>(CheckSpeedingListener(50));
         Context::get()->getScene().registerDetectionObjectListener(detectionObjectListener);
+        Context::get()->getVehicleState().registerSpeedChangeListener(speedCheckListener);
         LOGI("DetectionObjectListener registered.");
     }
 
