@@ -1,0 +1,4 @@
+#Fri Jan 18 13:07:09 EST 2019
+base.0=/Users/nivedithag/Library/Android/sdk/extras/wayray/sdk/sdk_samples/DetectionObjectSample/app/build/intermediates/transforms/dexMerger/debug/3
+path.0=classes.dex
+renamed.0=classes.dex
