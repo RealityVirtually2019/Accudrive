@@ -94,9 +94,9 @@ public:
                                 object->getName() + "_arrow", object);
                         newArrow->setMesh(arrowMesh);
                         newArrow->setPose(Pose(0.0, 0.0, 2.5));
-                        newArrow->setRotation(std::array<float, 3>{{90.0, 0.0, 270.0}});
+                        newArrow->setRotation(std::array<float, 3>{{0.0, 0.0, 0.0}});
                         newArrow->setScale(std::array<float, 3>{{0.5, 0.5, 0.5}});
-                        newArrow->setTexture(std::make_shared<Color>(Color::Palette::Green));
+                        newArrow->setTexture(std::make_shared<Color>(Color::Palette::Red));
                         arrowMap[object] = newArrow;
                         Context::get()->getScene().add(newArrow);
                     }

@@ -1,3 +1,0 @@
-com.wayray.truear.sdk.detectionobject
-mipmap ic_launcher
-string app_name
