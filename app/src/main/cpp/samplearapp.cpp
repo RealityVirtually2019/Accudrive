@@ -75,8 +75,8 @@ public:
             newArrow->setMesh(arrowMesh);
             newArrow->setPose(Pose(0, 0, -10 ));
             //newArrow->setPose(Pose(1, 0, 0 ));
-            newArrow->setRotation(std::array<float, 3>{{90.0 ,0.0, 0.0}});
-            newArrow->setScale(std::array<float, 3>{{0.5, 0.5, 0.5}});
+            newArrow->setRotation(std::array<float, 3>{{0.0 ,90.0, 90.0}});
+            newArrow->setScale(std::array<float, 3>{{0.25, 0.25, 0.25}});
             newArrow->setTexture(std::make_shared<Color>(Color::Palette::Red));
         }
         Context::get()->getScene().add(arObject);
@@ -119,14 +119,14 @@ public:
                 if (object->getStatus() == DetectionObject::Status::New || object->getStatus() == DetectionObject::Status::Changed || object->getStatus() == DetectionObject::Status::NotChanged) {
                     std::map<std::shared_ptr<DetectionObject>,std::shared_ptr<ARObject> >::iterator i = arrowMap.find(object);
                     if (i == arrowMap.end()) {
-                        std::shared_ptr<Mesh> arrowMesh = ResourceHelper::loadMesh("correctedSatr.obj");
+                        std::shared_ptr<Mesh> arrowMesh = ResourceHelper::loadMesh("correctedHadn.obj");
                         std::shared_ptr<ARObject> newArrow = std::make_shared<ARObject>(
                                 object->getName() + "_arrow", object);
                         newArrow->setMesh(arrowMesh);
                         newArrow->setPose(Pose(0.0, 0.0, 1.5));
-                        newArrow->setRotation(std::array<float, 3>{{0.0, 270.0, 90.0}});
+                        newArrow->setRotation(std::array<float, 3>{{0.0, 90.0, 90.0}});
                         newArrow->setScale(std::array<float, 3>{{0.25, 0.25, 0.25}});
-                        newArrow->setTexture(std::make_shared<Color>(Color::Palette::Red));
+                        newArrow->setTexture(std::make_shared<Color>(Color::RGBA((int8_t)255,(int8_t)165,(int8_t)2,(int8_t)255)));
                         arrowMap[object] = newArrow;
                         Context::get()->getScene().add(newArrow);
                     }
@@ -179,14 +179,14 @@ public:
                 if (object->getStatus() == DetectionObject::Status::New || object->getStatus() == DetectionObject::Status::Changed || object->getStatus() == DetectionObject::Status::NotChanged) {
                     std::map<std::shared_ptr<DetectionObject>,std::shared_ptr<ARObject> >::iterator i = arrowMap.find(object);
                     if (i == arrowMap.end()) {
-                        std::shared_ptr<Mesh> arrowMesh = ResourceHelper::loadMesh("parking.obj");
+                        std::shared_ptr<Mesh> arrowMesh = ResourceHelper::loadMesh("correctedPakr1.obj");
                         std::shared_ptr<ARObject> newArrow = std::make_shared<ARObject>(
                                 object->getName() + "_arrow", object);
                         newArrow->setMesh(arrowMesh);
                         newArrow->setPose(Pose(0.0, 0.0, 2.5));
-                        newArrow->setRotation(std::array<float, 3>{{90.0, 0.0, 0.0}});
-                        newArrow->setScale(std::array<float, 3>{{0.5, 0.5, 0.5}});
-                        newArrow->setTexture(std::make_shared<Color>(Color::Palette::Red));
+                        newArrow->setRotation(std::array<float, 3>{{0.0, 90, 90.0}});
+                        newArrow->setScale(std::array<float, 3>{{1.25, 1.25, 1.25}});
+                        newArrow->setTexture(std::make_shared<Color>(Color::RGBA((int8_t)255,(int8_t)255,(int8_t)255,(int8_t)255)));
                         arrowMap[object] = newArrow;
                         Context::get()->getScene().add(newArrow);
                     }
