@@ -31,7 +31,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++14 -Wall -Werror")
 
 add_library(truearapp SHARED
             samplearapp.cpp
-            SpeedCheck.cpp)
+            SpeedCheck.cpp
+            ScoreTracker.cpp)
 
 target_include_directories(truearapp PRIVATE
                               ${WAYRAY_SDK}/include)

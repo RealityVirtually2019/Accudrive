@@ -13,7 +13,7 @@
 #include <detectionobject.h>
 #include <color.h>
 
-#define LOGI(...) ((void)__android_log_print(ANDROID_LOG_INFO, "truear-detectionobject", __VA_ARGS__))
+#define LOGI(...) ((void)__android_log_print(ANDROID_LOG_INFO, "truear-accudrive", __VA_ARGS__))
 
 using namespace WayRay;
 
@@ -21,7 +21,7 @@ class CheckSpeedingListener : public Listener<double> {
 public:
     double speedLimit;
 
-    CheckSpeedingListener(double limit);
+    CheckSpeedingListener();
     void changed(const std::shared_ptr<double> speed);
 
 private:

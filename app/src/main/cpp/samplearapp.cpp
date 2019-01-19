@@ -16,6 +16,7 @@
 
 
 #include "SpeedCheck.h"
+#include "ScoreTracker.h"
 
 #define earthRadiusKm 6371.0
 
@@ -147,7 +148,7 @@ class DetectionObjectSampleARApp: public Application {
 
     virtual void onStart() {
         detectionObjectListener = std::make_shared<DetectionObjectListener>();
-        std::shared_ptr<CheckSpeedingListener> speedCheckListener = std::make_shared<CheckSpeedingListener>(CheckSpeedingListener(50));
+        std::shared_ptr<CheckSpeedingListener> speedCheckListener = std::make_shared<CheckSpeedingListener>();
         Context::get()->getScene().registerDetectionObjectListener(detectionObjectListener);
         Context::get()->getVehicleState().registerSpeedChangeListener(speedCheckListener);
         //LOGI("DetectionObjectListener registered.");
@@ -160,6 +161,7 @@ class DetectionObjectSampleARApp: public Application {
     }
 private:
     std::shared_ptr<DetectionObjectListener> detectionObjectListener;
+    std::shared_ptr<ScoreTracker> scoreTracker;
 };
 
 extern "C" {
