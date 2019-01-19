@@ -62,6 +62,10 @@ public:
         v = sin((lon2r - lon1r) / 2);
         return 2.0 * earthRadiusKm * asin(sqrt(u * u + cos(lat1r) * cos(lat2r) * v * v));
     }
+    void SetScoreTracker(std::shared_ptr<ScoreTracker> tracker)
+    {
+        scoreTracker = tracker;
+    }
 
     void changed(std::shared_ptr<DetectionObject> object) {
 
@@ -140,15 +144,18 @@ public:
          PARKING LOGIC ENDS
          */
     }
-    std::map<std::shared_ptr<DetectionObject>, std::shared_ptr<ARObject> > arrowMap;
 
+private:
+    std::map<std::shared_ptr<DetectionObject>, std::shared_ptr<ARObject> > arrowMap;
+    std::shared_ptr<ScoreTracker> scoreTracker;
 };
 
 class DetectionObjectSampleARApp: public Application {
 
     virtual void onStart() {
         detectionObjectListener = std::make_shared<DetectionObjectListener>();
-        std::shared_ptr<CheckSpeedingListener> speedCheckListener = std::make_shared<CheckSpeedingListener>();
+        speedCheckListener = std::make_shared<CheckSpeedingListener>();
+        scoreTracker = std::make_shared<ScoreTracker>();
         Context::get()->getScene().registerDetectionObjectListener(detectionObjectListener);
         Context::get()->getVehicleState().registerSpeedChangeListener(speedCheckListener);
         //LOGI("DetectionObjectListener registered.");
@@ -157,10 +164,12 @@ class DetectionObjectSampleARApp: public Application {
     virtual void onStop() {
         Context::get()->getScene().unregisterDetectionObjectListener(detectionObjectListener);
         detectionObjectListener.reset();
+
         //LOGI("DetectionObjectListener unregistered.");
     }
 private:
     std::shared_ptr<DetectionObjectListener> detectionObjectListener;
+    std::shared_ptr<CheckSpeedingListener> speedCheckListener;
     std::shared_ptr<ScoreTracker> scoreTracker;
 };
 

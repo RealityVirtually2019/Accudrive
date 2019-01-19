@@ -1,5 +1,6 @@
 # Built application files
 /*/build/
+/*/.externalNativeBuild/
 
 # Crashlytics configuations
 com_crashlytics_export_strings.xml
@@ -35,7 +36,3 @@ local.properties
 .Trashes
 ehthumbs.db
 Thumbs.db
-app/src/main/.DS_Store
-app/src/.DS_Store
-app/src/main/cpp/.DS_Store
-app/build/outputs/apk/debug/app-debug.apk
