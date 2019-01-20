@@ -38,7 +38,7 @@ void RoadParkingListener::ShowParking()
         parkingObject->setPose(Pose(0, 0, -10 ));
         parkingObject->setRotation(std::array<float, 3>{{90.0 ,0.0, 180.0}});
         parkingObject->setScale(std::array<float, 3>{{0.5, 0.5, 0.5}});
-        parkingObject->setTexture(std::make_shared<Color>(Color::Palette::Red));
+        parkingObject->setTexture(std::make_shared<Color>(Color::RGBA((int8_t)192,(int8_t)57,(int8_t)43,(int8_t)255)));
         Context::get()->getScene().add(parkingObject);
     }
     LOGI("Displayed");

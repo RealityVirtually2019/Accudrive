@@ -19,7 +19,7 @@ void DashboardSpeedListener::showDashboard(){
         Dashboard1->setPose(Pose(0, 0.75, -10 ));
         Dashboard1->setRotation(std::array<float, 3>{{-90.0 ,180.0, 180.0}});
         Dashboard1->setScale(std::array<float, 3>{{1.5, 1.5, 1.5}});
-        Dashboard1->setTexture(std::make_shared<Color>(Color::Palette::Red));
+        Dashboard1->setTexture(std::make_shared<Color>(Color::RGBA((int8_t)46,(int8_t)204,(int8_t)113,(int8_t)255)));
         Context::get()->getScene().add(Dashboard1);
         LOGI("Displayed Dash");
     }
@@ -32,11 +32,10 @@ void DashboardSpeedListener::showDashboard(){
         Dashboard3->setPose(Pose(-0.2, 0, -10 ));
         Dashboard3->setRotation(std::array<float, 3>{{-90.0 ,180.0, -90.0}});
         Dashboard3->setScale(std::array<float, 3>{{1.25, 1.25, 1.25}});
-        Dashboard3->setTexture(std::make_shared<Color>(Color::Palette::Red));
+        Dashboard3->setTexture(std::make_shared<Color>(Color::RGBA((int8_t)255,(int8_t)255,(int8_t)255,(int8_t)255)));
         Context::get()->getScene().add(Dashboard3);
         LOGI("Displayed Dash2");
     }
-
 
 }
 
