@@ -103,19 +103,25 @@ public:
         /* FEATURE 1 : TRAFFIC LIGHT VIOLATION CODE START:
          *
          */
+        double speed_of_car = 0;
 
         if (object->getType() == DetectionObject::Type::TrafficLight) {
             if(object->getState() == DetectionObject::TrafficLightState::Red){
                 double dist = distanceEarth(object->getPose().latitude,object->getPose().longitude,Context::get()->getVehicleState().getPose().latitude,Context::get()->getVehicleState().getPose().longitude);
                 //float distance_of_traffic_light_from_car = object->getDistance();
-                double speed_of_car = Context::get()->getVehicleState().getSpeed();
-                // LOGI("Distance: %f",dist);
+                speed_of_car = Context::get()->getVehicleState().getSpeed();
+                //LOGI("Distance: %f",dist);
                 if(dist<=0.5 && speed_of_car>=0.5 && canRunLight == true){
                     LOGI("You crossed the red light.");
                     //initHUDModel();
                     showStop();
                     scoreTracker->SubtractScore(TRAFFIC_SIGNAL, 100);
                     canRunLight = false;
+                }else if(speed_of_car<1.4){
+                    if (arObject != nullptr) {
+                        Context::get()->getScene().remove(arObject);
+                        arObject = nullptr;
+                    }
                 }
 
                 if (object->getStatus() == DetectionObject::Status::New || object->getStatus() == DetectionObject::Status::Changed || object->getStatus() == DetectionObject::Status::NotChanged) {
@@ -179,10 +185,7 @@ public:
 
 
         if (object->getType() == DetectionObject::Type::ParkingPlace) {
-
                 //double dist = distanceEarth(object->getPose().latitude,object->getPose().longitude,Context::get()->getVehicleState().getPose().latitude,Context::get()->getVehicleState().getPose().longitude);
-
-
                 if (object->getStatus() == DetectionObject::Status::New || object->getStatus() == DetectionObject::Status::Changed || object->getStatus() == DetectionObject::Status::NotChanged) {
                     std::map<std::shared_ptr<DetectionObject>,std::shared_ptr<ARObject> >::iterator i = arrowMap.find(object);
                     if (i == arrowMap.end()) {
@@ -205,10 +208,14 @@ public:
                         Context::get()->getScene().remove(arrow);
                         arrowMap.erase(object);
                     }
-
             }
-
         }
+//        if(speed_of_car<1.4){
+//            if (arObject != nullptr) {
+//                Context::get()->getScene().remove(arObject);
+//                arObject = nullptr;
+//            }
+//        }
     }
 
 private:
@@ -239,10 +246,6 @@ class DetectionObjectSampleARApp: public Application {
         detectionObjectListener.reset();
         speedCheckListener.reset();
         scoreTracker.reset();
-        if (arObject != nullptr) {
-            Context::get()->getScene().remove(arObject);
-            arObject = nullptr;
-        }
         LOGI("ON STOP COMPLETE");
     }
 private:
