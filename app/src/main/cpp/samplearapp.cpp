@@ -106,6 +106,7 @@ public:
         double speed_of_car = 0;
 
         if (object->getType() == DetectionObject::Type::TrafficLight) {
+
             if(object->getState() == DetectionObject::TrafficLightState::Red){
                 double dist = distanceEarth(object->getPose().latitude,object->getPose().longitude,Context::get()->getVehicleState().getPose().latitude,Context::get()->getVehicleState().getPose().longitude);
                 //float distance_of_traffic_light_from_car = object->getDistance();
@@ -160,6 +161,43 @@ public:
                     Context::get()->getScene().remove(arrow);
                     arrowMap.erase(object);
                 }
+            }else{
+                std::map<std::shared_ptr<DetectionObject>,std::shared_ptr<ARObject> >::iterator i = arrowMap.find(object);
+                if (i != arrowMap.end()) {
+                    std::shared_ptr<ARObject> arrow = i->second;
+                    arrow->setParent(nullptr);
+                    Context::get()->getScene().remove(arrow);
+                    arrowMap.erase(object);
+                }
+                if (object->getStatus() == DetectionObject::Status::New || object->getStatus() == DetectionObject::Status::Changed || object->getStatus() == DetectionObject::Status::NotChanged) {
+                    std::map<std::shared_ptr<DetectionObject>,std::shared_ptr<ARObject> >::iterator i = arrowMap.find(object);
+                    if (i == arrowMap.end()) {
+                        std::shared_ptr<Mesh> arrowMesh = ResourceHelper::loadMesh("correctedPakr4.obj");
+                        std::shared_ptr<ARObject> newArrow = std::make_shared<ARObject>(
+                                object->getName() + "_arrow", object);
+                        newArrow->setMesh(arrowMesh);
+                        newArrow->setPose(Pose(0.0, 0.0, 1.5));
+                        newArrow->setRotation(std::array<float, 3>{{0.0, 90.0, 90.0}});
+                        newArrow->setScale(std::array<float, 3>{{0.25, 0.25, 0.25}});
+                        newArrow->setTexture(std::make_shared<Color>(Color::RGBA((int8_t)106,(int8_t)176,(int8_t)76,(int8_t)255)));
+                        arrowMap[object] = newArrow;
+                        Context::get()->getScene().add(newArrow);
+                    }
+                }else if (object->getStatus() == DetectionObject::Status::Disappeared) {
+                    std::map<std::shared_ptr<DetectionObject>,std::shared_ptr<ARObject> >::iterator i = arrowMap.find(object);
+                    if (i != arrowMap.end()) {
+                        std::shared_ptr<ARObject> arrow = i->second;
+                        arrow->setParent(nullptr);
+                        Context::get()->getScene().remove(arrow);
+                        arrowMap.erase(object);
+                        if (arObject != nullptr) {
+                            Context::get()->getScene().remove(arObject);
+                            arObject = nullptr;
+                        }
+                    }
+                    canRunLight = true;
+                }
+
             }
 
         }
