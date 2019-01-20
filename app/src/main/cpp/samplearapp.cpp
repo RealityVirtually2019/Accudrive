@@ -13,6 +13,7 @@
 #include <iostream>
 #include <chrono>
 #include <ctime>
+#include <thread>
 
 
 #include "SpeedCheck.h"
@@ -70,13 +71,13 @@ public:
     void showStop(){
         std::shared_ptr<ARObject> arObject;
         if(arObject == nullptr){
-            std::shared_ptr<Mesh> arrowMesh = ResourceHelper::loadMesh("correctedSatr.obj");
+            std::shared_ptr<Mesh> arrowMesh = ResourceHelper::loadMesh("arrow.obj");
             std::shared_ptr<ARObject> newArrow = std::make_shared<ARObject>("arObject",Context::get()->getScene().getCamera());
             newArrow->setMesh(arrowMesh);
-            newArrow->setPose(Pose(0, 0, -10 ));
+            newArrow->setPose(Pose(1, 0, -10 ));
             //newArrow->setPose(Pose(1, 0, 0 ));
-            newArrow->setRotation(std::array<float, 3>{{0.0 ,90.0, 90.0}});
-            newArrow->setScale(std::array<float, 3>{{0.25, 0.25, 0.25}});
+            newArrow->setRotation(std::array<float, 3>{{0.0 ,0.0, 0.0}});
+            newArrow->setScale(std::array<float, 3>{{1.5, 1.5, 1.5}});
             newArrow->setTexture(std::make_shared<Color>(Color::Palette::Red));
         }
         Context::get()->getScene().add(arObject);
@@ -139,7 +140,7 @@ public:
                         arrowMap.erase(object);
                     }
                 }
-            }else{
+            }else if(object->getState() == DetectionObject::TrafficLightState::Yellow){
                 std::map<std::shared_ptr<DetectionObject>,std::shared_ptr<ARObject> >::iterator i = arrowMap.find(object);
                 if (i != arrowMap.end()) {
                     std::shared_ptr<ARObject> arrow = i->second;
@@ -211,7 +212,37 @@ private:
 
 class DetectionObjectSampleARApp: public Application {
 
+    void showStop(){
+
+
+
+
+    }
+
+    std::shared_ptr<ARObject> arObject;
+
+
     virtual void onStart() {
+
+
+        //showStop();
+//        std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+
+        if(arObject == nullptr){
+            std::shared_ptr<Mesh> arrowMesh = ResourceHelper::loadMesh("correctedPakr2.obj");
+            arObject = std::make_shared<ARObject>("arObject",Context::get()->getScene().getCamera());
+            arObject->setMesh(arrowMesh);
+            arObject->setPose(Pose(0, 0, -10 ));
+            //arObject->setPose(Pose(1, 0, 0 ));
+            arObject->setRotation(std::array<float, 3>{{90.0 ,0.0, 180.0}});
+            arObject->setScale(std::array<float, 3>{{1.5, 1.5, 1.5}});
+            arObject->setTexture(std::make_shared<Color>(Color::Palette::Red));
+            Context::get()->getScene().add(arObject);
+        }
+
+        LOGI("Displayed");
+
+
         detectionObjectListener = std::make_shared<DetectionObjectListener>();
         speedCheckListener = std::make_shared<CheckSpeedingListener>();
         scoreTracker = std::make_shared<ScoreTracker>();
@@ -228,6 +259,10 @@ class DetectionObjectSampleARApp: public Application {
         detectionObjectListener.reset();
         LOGI("FINAL SCORE: %f", scoreTracker->CalcTotalScore());
         scoreTracker->SaveReport();
+        if (arObject != nullptr) {
+            Context::get()->getScene().remove(arObject);
+            arObject = nullptr;
+        }
         LOGI("ON STOP COMPLETE");
     }
 private:
