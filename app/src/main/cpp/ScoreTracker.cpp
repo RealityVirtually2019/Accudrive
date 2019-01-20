@@ -36,15 +36,17 @@ double ScoreTracker::CalcTotalScore() {
 
 void ScoreTracker::SaveReport() {
     double totalScore = CalcTotalScore();
-    char  reportBuff [100];
 
-    std::sprintf(reportBuff, "TotalScore:%f\nSpeed Score:%f\nParking:%f\nLane Change:%f\nTraffic Signal:%f\n",
-            totalScore, scoreMap[SPEEDING], scoreMap[PARKING], scoreMap[LANE_CHANGE], scoreMap[TRAFFIC_SIGNAL]);
-    std::string reportString = reportBuff;
+    std::string reportString = "TotalScore: " + std::to_string(totalScore) +
+            "\nSpeed Score: " + std::to_string(scoreMap[SPEEDING]) +
+            "\nParking: " + std::to_string(scoreMap[SPEEDING]) +
+            "\nLane Change: " + std::to_string(scoreMap[LANE_CHANGE]) +
+            "\nTraffic Signal: " + std::to_string(scoreMap[TRAFFIC_SIGNAL]);
 
     std::ofstream reportOutput;
     reportOutput.open("/data/data/com.accudrive.app/report.txt");
     reportOutput << reportString;
     reportOutput.close();
+    LOGI("Report Saved: " + reportString);
 }
 

@@ -241,7 +241,7 @@ class DetectionObjectSampleARApp: public Application {
     virtual void onStop() {
         Context::get()->getScene().unregisterDetectionObjectListener(detectionObjectListener);
         Context::get()->getVehicleState().unregisterSpeedChangeListener(speedCheckListener);
-        //scoreTracker->SaveReport();
+        scoreTracker->SaveReport();
         LOGI("FINAL SCORE: %f", scoreTracker->CalcTotalScore());
         detectionObjectListener.reset();
         speedCheckListener.reset();

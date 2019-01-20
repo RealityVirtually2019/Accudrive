@@ -1,0 +1,5 @@
+TotalScore: 100.000000
+Speed Score: 50.000000
+Parking: 50.000000
+Lane Change: 250.000000
+Traffic Signal: -450.000000
