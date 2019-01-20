@@ -36,8 +36,12 @@ public:
 
     std::shared_ptr<ARObject> arObject;
 
+    std::shared_ptr<ARObject> minusten;
+
+
 
     std::shared_ptr<ARObject> parkingObject;
+    std::shared_ptr<ARObject> AddPointsObject;
 
     /*
      * PARKING VARIABLES
@@ -95,20 +99,43 @@ public:
     }
 
 
+    void showMinus(){
+        if(minusten == nullptr){
+            std::shared_ptr<Mesh> arrowMesh = ResourceHelper::loadMesh("MinusScore.obj");
+            minusten = std::make_shared<ARObject>("minusten",Context::get()->getScene().getCamera());
+            minusten->setMesh(arrowMesh);
+            minusten->setPose(Pose(0, -0.5, -10 ));
+            //arObject->setPose(Pose(1, 0, 0 ));
+            minusten->setRotation(std::array<float, 3>{{90.0 ,0.0, 90.0}});
+            minusten->setScale(std::array<float, 3>{{0.5, 0.5, 0.5}});
+            minusten->setTexture(std::make_shared<Color>(Color::Palette::Red));
+            Context::get()->getScene().add(minusten);
+        }
+        LOGI("minusten");
+    }
+
+
+
     void showParking(){
         if(parkingObject == nullptr){
             std::shared_ptr<Mesh> arrowMesh = ResourceHelper::loadMesh("correctedPakr5.obj");
             parkingObject = std::make_shared<ARObject>("parkingObject",Context::get()->getScene().getCamera());
             parkingObject->setMesh(arrowMesh);
-            parkingObject->setPose(Pose(0, 0, -10 ));
+            parkingObject->setPose(Pose(0, 0.75, -10 ));
             parkingObject->setRotation(std::array<float, 3>{{90.0 ,0.0, 180.0}});
-            parkingObject->setScale(std::array<float, 3>{{0.5, 0.5, 0.5}});
+            parkingObject->setScale(std::array<float, 3>{{0.75, 0.75, 0.75}});
             parkingObject->setTexture(std::make_shared<Color>(Color::Palette::Red));
             Context::get()->getScene().add(parkingObject);
         }
-        LOGI("Displayed");
     }
 
+    void removeMinus10(){
+        if(minusten!= nullptr){
+            Context::get()->getScene().remove(minusten);
+            LOGI("PARKING OBJECT IS NULL");
+            minusten = nullptr;
+        }
+    }
 
     void RemoveParking(){
         if(parkingObject!= nullptr){
@@ -134,9 +161,6 @@ public:
          *
          */
         double speed_of_car = 0;
-
-
-
 
 
         if (object->getType() == DetectionObject::Type::TrafficLight) {
@@ -243,7 +267,8 @@ public:
             if (Context::get()->getVehicleState().getSpeed() > 0) {
                 start_park_time = time(NULL);
                 parkingFlag = false;
-
+                RemoveParking();
+                removeMinus10();
                 //char* current_time = ctime(&my_time);
                 //std::string str(current_time);
                 //std::string seconds = str.substr(17,2);
@@ -266,6 +291,7 @@ public:
                         scoreTracker->SubtractScore(PARKING);
                         LOGI("You are in bad parking mode. Distance: %f", parkDist);
                         showParking();
+                        showMinus();
                     }
                 }
 
