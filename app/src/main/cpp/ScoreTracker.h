@@ -10,6 +10,7 @@
 #include <iostream>
 #include <fstream>
 #include <string.h>
+#include <cstdio>
 
 enum ScoreFactor
 {

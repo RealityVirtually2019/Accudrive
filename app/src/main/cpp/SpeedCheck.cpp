@@ -3,16 +3,17 @@
 
 CheckSpeedingListener::CheckSpeedingListener()
 {
-    speedLimit = 50;
+    speedLimit = 25;
     LOGI("Speed Limit Registered: %f", speedLimit);
 }
 
 void CheckSpeedingListener::changed(const std::shared_ptr<double> speed) {
-    LOGI("Speeding!! Current speed: %f", *speed);
-    if(*speed > speedLimit)
+    //LOGI("Current speed: %f Speed Limit:%f IsSpeeding:%d", *speed, speedLimit,isSpeeding);
+    if(*speed > speedLimit && isSpeeding == false)
     {
         isSpeeding = true;
         LOGI("Speeding!! Current speed: %f", *speed);
+        scoreTracker->SubtractScore(SPEEDING, 100);
     }
     else if(*speed <= speedLimit && isSpeeding)
     {

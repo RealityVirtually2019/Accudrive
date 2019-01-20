@@ -22,7 +22,6 @@ using namespace WayRay;
 class CheckSpeedingListener : public Listener<double> {
 public:
     double speedLimit;
-
     CheckSpeedingListener();
     void changed(const std::shared_ptr<double> speed);
     void SetScoreTracker(std::shared_ptr<ScoreTracker> tracker);

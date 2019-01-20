@@ -87,9 +87,10 @@ public:
                 //float distance_of_traffic_light_from_car = object->getDistance();
                 double speed_of_car = Context::get()->getVehicleState().getSpeed();
                 // LOGI("Distance: %f",dist);
-                if(dist<=0.5 && speed_of_car>=0.5){
+                if(dist<=0.5 && speed_of_car>=0.5 && canRunLight == true){
                     //LOGI("You crossed the red light.");
-                    scoreTracker->AddScore(TRAFFIC_SIGNAL, 100);
+                    scoreTracker->SubtractScore(TRAFFIC_SIGNAL, 100);
+                    canRunLight = false;
                 }
                 if (object->getStatus() == DetectionObject::Status::New || object->getStatus() == DetectionObject::Status::Changed || object->getStatus() == DetectionObject::Status::NotChanged) {
                     std::map<std::shared_ptr<DetectionObject>,std::shared_ptr<ARObject> >::iterator i = arrowMap.find(object);
@@ -113,6 +114,7 @@ public:
                         Context::get()->getScene().remove(arrow);
                         arrowMap.erase(object);
                     }
+                    canRunLight = true;
                 }
             }else{
                 std::map<std::shared_ptr<DetectionObject>,std::shared_ptr<ARObject> >::iterator i = arrowMap.find(object);
@@ -148,6 +150,7 @@ public:
 
 private:
     std::map<std::shared_ptr<DetectionObject>, std::shared_ptr<ARObject> > arrowMap;
+    bool canRunLight = false;
     std::shared_ptr<ScoreTracker> scoreTracker;
 };
 
@@ -167,9 +170,11 @@ class DetectionObjectSampleARApp: public Application {
     virtual void onStop() {
         Context::get()->getScene().unregisterDetectionObjectListener(detectionObjectListener);
         Context::get()->getVehicleState().unregisterSpeedChangeListener(speedCheckListener);
-        detectionObjectListener.reset();
+        //scoreTracker->SaveReport();
         LOGI("FINAL SCORE: %f", scoreTracker->CalcTotalScore());
-        scoreTracker->SaveReport();
+        detectionObjectListener.reset();
+        speedCheckListener.reset();
+        scoreTracker.reset();
         LOGI("ON STOP COMPLETE");
     }
 private:
