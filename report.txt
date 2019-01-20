@@ -1,5 +1,5 @@
-TotalScore: 985.000000
-Speed Score: 200.000000
-Parking: 285.000000
+TotalScore: 365.000000
+Speed Score: 150.000000
+Parking: 215.000000
 Lane Change: 250.000000
-Traffic Signal: 250.000000
+Traffic Signal: -250.000000
