@@ -25,9 +25,14 @@ public:
     void SetScoreTracker(std::shared_ptr<ScoreTracker> tracker);
     void SetParkingDetectionListener(std::shared_ptr<DetectionObjectListener> pListener);
     void SetParkingObject(std::shared_ptr<ARObject> parkingObj);
+    void SetMinusTen(std::shared_ptr<ARObject> mten);
     void RemoveParking();
     void ShowParking();
+    void showMinus();
+
+    void removeMinus10();
     std::shared_ptr<ARObject> parkingObject;
+    std::shared_ptr<ARObject> minusten;
 private:
     bool isParked = true;
     double parkTimeLimit = 15.0;

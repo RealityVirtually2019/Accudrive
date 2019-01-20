@@ -23,7 +23,7 @@ void DetectionObjectListener::showParking()
         std::shared_ptr<Mesh> arrowMesh = ResourceHelper::loadMesh("correctedPakr5.obj");
         parkingObject = std::make_shared<ARObject>("parkingObject",Context::get()->getScene().getCamera());
         parkingObject->setMesh(arrowMesh);
-        parkingObject->setPose(Pose(0, 0, -10 ));
+        parkingObject->setPose(Pose(0, 0.5, -10 ));
         parkingObject->setRotation(std::array<float, 3>{{90.0 ,0.0, 180.0}});
         parkingObject->setScale(std::array<float, 3>{{0.5, 0.5, 0.5}});
         parkingObject->setTexture(std::make_shared<Color>(Color::Palette::Red));
@@ -37,7 +37,7 @@ void DetectionObjectListener::showMinus(){
             std::shared_ptr<Mesh> arrowMesh = ResourceHelper::loadMesh("MinusScore.obj");
             minusten = std::make_shared<ARObject>("minusten",Context::get()->getScene().getCamera());
             minusten->setMesh(arrowMesh);
-            minusten->setPose(Pose(0, -0.5, -10 ));
+            minusten->setPose(Pose(0, -0.75, -10 ));
             //arObject->setPose(Pose(1, 0, 0 ));
             minusten->setRotation(std::array<float, 3>{{90.0 ,0.0, 90.0}});
             minusten->setScale(std::array<float, 3>{{0.5, 0.5, 0.5}});
@@ -53,7 +53,8 @@ void DetectionObjectListener::removeMinus10(){
             LOGI("PARKING OBJECT IS NULL");
             minusten = nullptr;
         }
-    }
+}
+
 void DetectionObjectListener::RemoveParking()
 {
     if(parkingObject!= nullptr){

@@ -41,6 +41,7 @@ class DetectionObjectSampleARApp: public Application {
         roadParkingListener->SetParkingDetectionListener(detectionObjectListener);
         roadParkingListener->SetScoreTracker(scoreTracker);
         roadParkingListener->SetParkingObject(detectionObjectListener->parkingObject);
+        roadParkingListener->SetMinusTen(detectionObjectListener->minusten);
         Context::get()->getScene().registerDetectionObjectListener(detectionObjectListener);
         Context::get()->getVehicleState().registerSpeedChangeListener(speedCheckListener);
         Context::get()->getVehicleState().registerSpeedChangeListener(dashboardSpeedListener);
