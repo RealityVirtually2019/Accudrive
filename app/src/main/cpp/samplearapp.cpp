@@ -26,7 +26,6 @@
 
 using namespace WayRay;
 
-
 class DetectionObjectSampleARApp: public Application {
 
     virtual void onStart() {
