@@ -114,7 +114,7 @@ public:
                     LOGI("You crossed the red light.");
                     //initHUDModel();
                     showStop();
-                    scoreTracker->SubtractScore(TRAFFIC_SIGNAL, 100);
+                    scoreTracker->SubtractScore(TRAFFIC_SIGNAL);
                     canRunLight = false;
                 }
 
@@ -234,7 +234,7 @@ class DetectionObjectSampleARApp: public Application {
     virtual void onStop() {
         Context::get()->getScene().unregisterDetectionObjectListener(detectionObjectListener);
         Context::get()->getVehicleState().unregisterSpeedChangeListener(speedCheckListener);
-        //scoreTracker->SaveReport();
+        scoreTracker->SaveReport();
         LOGI("FINAL SCORE: %f", scoreTracker->CalcTotalScore());
         detectionObjectListener.reset();
         speedCheckListener.reset();

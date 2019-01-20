@@ -24,8 +24,8 @@ enum ScoreFactor
 class ScoreTracker {
 public:
     ScoreTracker();
-    void AddScore(ScoreFactor factor, double score);
-    void SubtractScore(ScoreFactor factor, double score);
+    void AddScore(ScoreFactor factor);
+    void SubtractScore(ScoreFactor factor);
     void SaveReport();
     double CalcTotalScore();
 private:
