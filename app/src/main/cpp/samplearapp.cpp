@@ -95,8 +95,10 @@ public:
 
         //int is3DwarningVisible=0;
 
-        if(start_park_time>30){
-            //LOGI("Your in parking mode");
+        if(start_park_time>30 && !parkingFlag){
+            LOGI("Your in parking mode");
+            parkingFlag = true;
+            scoreTracker->AddScore(PARKING);
         }
 
 
@@ -213,8 +215,9 @@ public:
             std::string seconds = str.substr(17,2);
             start_park_time = std::stoi(seconds,nullptr,10);
             //LOGI("%d", sec);
-        }else{
+        }else if (parkingFlag == true &&  Context::get()->getVehicleState().getSpeed() > 0){
             start_park_time=0;
+            parkingFlag = false;
         }
 
         /*
@@ -259,6 +262,7 @@ public:
 private:
     std::map<std::shared_ptr<DetectionObject>, std::shared_ptr<ARObject> > arrowMap;
     bool canRunLight = false;
+    bool parkingFlag = false;
     std::shared_ptr<ScoreTracker> scoreTracker;
 };
 

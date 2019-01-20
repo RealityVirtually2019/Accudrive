@@ -47,6 +47,6 @@ void ScoreTracker::SaveReport() {
     reportOutput.open("/data/data/com.accudrive.app/report.txt");
     reportOutput << reportString;
     reportOutput.close();
-    LOGI("Report Saved: " + reportString);
+    LOGI("Report Saved: %s", reportString.c_str());
 }
 
