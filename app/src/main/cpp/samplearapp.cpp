@@ -239,10 +239,6 @@ class DetectionObjectSampleARApp: public Application {
         detectionObjectListener.reset();
         speedCheckListener.reset();
         scoreTracker.reset();
-        if (arObject != nullptr) {
-            Context::get()->getScene().remove(arObject);
-            arObject = nullptr;
-        }
         LOGI("ON STOP COMPLETE");
     }
 private:

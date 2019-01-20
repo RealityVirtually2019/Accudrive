@@ -3,12 +3,12 @@
 
 CheckSpeedingListener::CheckSpeedingListener()
 {
-    speedLimit = 25;
+    speedLimit = KiloPerHourToMetersPerSecond(50.0);
     LOGI("Speed Limit Registered: %f", speedLimit);
 }
 
 void CheckSpeedingListener::changed(const std::shared_ptr<double> speed) {
-    //LOGI("Current speed: %f Speed Limit:%f IsSpeeding:%d", *speed, speedLimit,isSpeeding);
+    LOGI("Current speed: %f Speed Limit:%f IsSpeeding:%d", *speed, speedLimit,isSpeeding);
     if(*speed > speedLimit && isSpeeding == false)
     {
         isSpeeding = true;
@@ -23,6 +23,10 @@ void CheckSpeedingListener::changed(const std::shared_ptr<double> speed) {
 }
 void CheckSpeedingListener::SetScoreTracker(std::shared_ptr<ScoreTracker> tracker) {
     scoreTracker = tracker;
+}
+double CheckSpeedingListener::KiloPerHourToMetersPerSecond(double kph)
+{
+    return kph * 1000/3600;
 }
 
 

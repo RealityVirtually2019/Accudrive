@@ -26,6 +26,7 @@ public:
     void changed(const std::shared_ptr<double> speed);
     void SetScoreTracker(std::shared_ptr<ScoreTracker> tracker);
 private:
+    double KiloPerHourToMetersPerSecond(double mps);
     bool isSpeeding = false;
     std::shared_ptr<ScoreTracker> scoreTracker;
 };
