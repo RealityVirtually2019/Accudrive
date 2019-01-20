@@ -34,6 +34,9 @@ public:
 
     std::shared_ptr<ARObject> arObject;
     std::shared_ptr<ARObject> parkingObject;
+    std::shared_ptr<ARObject> minusten;
+    //std::shared_ptr<ARObject> AddPointsObject;
+
     bool canRunLight = false;
     bool parkingFlag = false;
     /*
@@ -83,7 +86,8 @@ public:
 
     void RemoveParking();
 
-
+    void showMinus();
+    void removeMinus10();
     void changed(std::shared_ptr<DetectionObject> object);
 
 private:

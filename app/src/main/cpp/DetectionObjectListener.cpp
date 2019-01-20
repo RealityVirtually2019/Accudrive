@@ -31,6 +31,28 @@ void DetectionObjectListener::showParking()
     LOGI("Displayed");
 }
 
+void DetectionObjectListener::showMinus(){
+        if(minusten == nullptr){
+            std::shared_ptr<Mesh> arrowMesh = ResourceHelper::loadMesh("MinusScore.obj");
+            minusten = std::make_shared<ARObject>("minusten",Context::get()->getScene().getCamera());
+            minusten->setMesh(arrowMesh);
+            minusten->setPose(Pose(0, -0.5, -10 ));
+            //arObject->setPose(Pose(1, 0, 0 ));
+            minusten->setRotation(std::array<float, 3>{{90.0 ,0.0, 90.0}});
+            minusten->setScale(std::array<float, 3>{{0.5, 0.5, 0.5}});
+            minusten->setTexture(std::make_shared<Color>(Color::Palette::Red));
+            Context::get()->getScene().add(minusten);
+        }
+        LOGI("minusten");
+    }
+
+void DetectionObjectListener::removeMinus10(){
+        if(minusten!= nullptr){
+            Context::get()->getScene().remove(minusten);
+            LOGI("PARKING OBJECT IS NULL");
+            minusten = nullptr;
+        }
+    }
 void DetectionObjectListener::RemoveParking()
 {
     if(parkingObject!= nullptr){
@@ -163,7 +185,8 @@ void DetectionObjectListener::changed(std::shared_ptr<DetectionObject> object)
         if (Context::get()->getVehicleState().getSpeed() > 0) {
             start_park_time = time(NULL);
             parkingFlag = false;
-
+            RemoveParking();
+            removeMinus10();
             //char* current_time = ctime(&my_time);
             //std::string str(current_time);
             //std::string seconds = str.substr(17,2);
@@ -180,12 +203,12 @@ void DetectionObjectListener::changed(std::shared_ptr<DetectionObject> object)
                 {
                     scoreTracker->AddScore(PARKING);
                     LOGI("You are in good parking mode. Distance: %f", parkDist);
-
                 }
                 else {
                     scoreTracker->SubtractScore(PARKING);
                     LOGI("You are in bad parking mode. Distance: %f", parkDist);
                     showParking();
+                    showMinus();
                 }
             }
         }
