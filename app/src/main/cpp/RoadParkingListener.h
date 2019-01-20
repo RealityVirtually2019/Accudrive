@@ -12,7 +12,7 @@
 #include <ctime>
 #include <thread>
 
-#include "samplearapp.cpp"
+#include "DetectionObjectListener.h"
 #include "ScoreTracker.h"
 #include "SpeedCheck.h"
 
@@ -25,13 +25,15 @@ public:
     void SetScoreTracker(std::shared_ptr<ScoreTracker> tracker);
     void SetParkingDetectionListener(std::shared_ptr<DetectionObjectListener> pListener);
     void SetParkingObject(std::shared_ptr<ARObject> parkingObj);
+    void RemoveParking();
+    void ShowParking();
+    std::shared_ptr<ARObject> parkingObject;
 private:
     bool isParked = true;
     double parkTimeLimit = 15.0;
     time_t start_park_time;
     std::shared_ptr<DetectionObjectListener> parkingListener;
     std::shared_ptr<ScoreTracker> scoreTracker;
-    std::shared_ptr<ARObject> parkingObject;
 };
 
 

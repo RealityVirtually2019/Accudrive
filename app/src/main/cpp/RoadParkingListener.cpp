@@ -4,7 +4,7 @@ RoadParkingListener::RoadParkingListener()
 {
     start_park_time = time(NULL);
 }
-RoadParkingListener::changed(const std::shared_ptr<double> speed)
+void RoadParkingListener::changed(const std::shared_ptr<double> speed)
 {
     if(*speed > 0.0)
     {
@@ -20,16 +20,16 @@ RoadParkingListener::changed(const std::shared_ptr<double> speed)
         if(parkTime >= parkTimeLimit && !isParked && !parkingListener->parkingFlag)
         {
             isParked = true;
-            ScoreTracker->SubtractScore(PARKING);
+            scoreTracker->SubtractScore(PARKING);
             LOGI("You are parked in the middle of the road!");
-            showParking();
+            ShowParking();
         }
     }
 }
 
 
 
-void RoadParkingListener::showParking()
+void RoadParkingListener::ShowParking()
 {
     if(parkingObject == nullptr){
         std::shared_ptr<Mesh> arrowMesh = ResourceHelper::loadMesh("correctedPakr5.obj");

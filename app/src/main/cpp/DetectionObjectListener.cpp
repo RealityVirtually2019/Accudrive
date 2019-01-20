@@ -1,5 +1,6 @@
 #include "DetectionObjectListener.h"
 
+DetectionObjectListener::DetectionObjectListener() {}
 void DetectionObjectListener::showStop()
 {
     if(arObject == nullptr){
