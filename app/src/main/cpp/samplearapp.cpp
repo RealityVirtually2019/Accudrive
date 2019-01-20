@@ -162,6 +162,13 @@ public:
                     arrowMap.erase(object);
                 }
             }else{
+                std::map<std::shared_ptr<DetectionObject>,std::shared_ptr<ARObject> >::iterator i = arrowMap.find(object);
+                if (i != arrowMap.end()) {
+                    std::shared_ptr<ARObject> arrow = i->second;
+                    arrow->setParent(nullptr);
+                    Context::get()->getScene().remove(arrow);
+                    arrowMap.erase(object);
+                }
                 if (object->getStatus() == DetectionObject::Status::New || object->getStatus() == DetectionObject::Status::Changed || object->getStatus() == DetectionObject::Status::NotChanged) {
                     std::map<std::shared_ptr<DetectionObject>,std::shared_ptr<ARObject> >::iterator i = arrowMap.find(object);
                     if (i == arrowMap.end()) {
