@@ -18,12 +18,17 @@
 
 #include "SpeedCheck.h"
 #include "ScoreTracker.h"
+#include "DashboardSpeedListener.h"
 
 #define earthRadiusKm 6371.0
 
 
 
 using namespace WayRay;
+
+
+
+
 
 class DetectionObjectListener : public Listener<DetectionObject> {
 public:
@@ -104,6 +109,7 @@ public:
         LOGI("Displayed");
     }
 
+
     void RemoveParking(){
         if(parkingObject!= nullptr){
             Context::get()->getScene().remove(parkingObject);
@@ -111,6 +117,8 @@ public:
             parkingObject = nullptr;
         }
     }
+
+
 
     void changed(std::shared_ptr<DetectionObject> object) {
 
@@ -128,10 +136,7 @@ public:
         double speed_of_car = 0;
 
 
-        if(Context::get()->getVehicleState().getSpeed()>0)
-        {
-            RemoveParking();
-        }
+
 
 
         if (object->getType() == DetectionObject::Type::TrafficLight) {
@@ -270,7 +275,7 @@ public:
         }
         //else
         //{
-            //double parkDist = distanceEarth(object->getPose().latitude, object->getPose().longitude, Context::get()->getVehicleState().getPose().latitude, Context::get()->getVehicleState().getPose().longitude);
+        //double parkDist = distanceEarth(object->getPose().latitude, object->getPose().longitude, Context::get()->getVehicleState().getPose().latitude, Context::get()->getVehicleState().getPose().longitude);
 
         //}
         /*
@@ -279,29 +284,29 @@ public:
 
 
         if (object->getType() == DetectionObject::Type::ParkingPlace) {
-                //double dist = distanceEarth(object->getPose().latitude,object->getPose().longitude,Context::get()->getVehicleState().getPose().latitude,Context::get()->getVehicleState().getPose().longitude);
-                if (object->getStatus() == DetectionObject::Status::New || object->getStatus() == DetectionObject::Status::Changed || object->getStatus() == DetectionObject::Status::NotChanged) {
-                    std::map<std::shared_ptr<DetectionObject>,std::shared_ptr<ARObject> >::iterator i = arrowMap.find(object);
-                    if (i == arrowMap.end()) {
-                        std::shared_ptr<Mesh> arrowMesh = ResourceHelper::loadMesh("correctedPakr1.obj");
-                        std::shared_ptr<ARObject> newArrow = std::make_shared<ARObject>(
-                                object->getName() + "_arrow", object);
-                        newArrow->setMesh(arrowMesh);
-                        newArrow->setPose(Pose(0.0, 0.0, 2.5));
-                        newArrow->setRotation(std::array<float, 3>{{0.0, 90, 90.0}});
-                        newArrow->setScale(std::array<float, 3>{{1.25, 1.25, 1.25}});
-                        newArrow->setTexture(std::make_shared<Color>(Color::RGBA((int8_t)255,(int8_t)255,(int8_t)255,(int8_t)255)));
-                        arrowMap[object] = newArrow;
-                        Context::get()->getScene().add(newArrow);
-                    }
-                }else if (object->getStatus() == DetectionObject::Status::Disappeared) {
-                    std::map<std::shared_ptr<DetectionObject>,std::shared_ptr<ARObject> >::iterator i = arrowMap.find(object);
-                    if (i != arrowMap.end()) {
-                        std::shared_ptr<ARObject> arrow = i->second;
-                        arrow->setParent(nullptr);
-                        Context::get()->getScene().remove(arrow);
-                        arrowMap.erase(object);
-                    }
+            //double dist = distanceEarth(object->getPose().latitude,object->getPose().longitude,Context::get()->getVehicleState().getPose().latitude,Context::get()->getVehicleState().getPose().longitude);
+            if (object->getStatus() == DetectionObject::Status::New || object->getStatus() == DetectionObject::Status::Changed || object->getStatus() == DetectionObject::Status::NotChanged) {
+                std::map<std::shared_ptr<DetectionObject>,std::shared_ptr<ARObject> >::iterator i = arrowMap.find(object);
+                if (i == arrowMap.end()) {
+                    std::shared_ptr<Mesh> arrowMesh = ResourceHelper::loadMesh("correctedPakr1.obj");
+                    std::shared_ptr<ARObject> newArrow = std::make_shared<ARObject>(
+                            object->getName() + "_arrow", object);
+                    newArrow->setMesh(arrowMesh);
+                    newArrow->setPose(Pose(0.0, 0.0, 2.5));
+                    newArrow->setRotation(std::array<float, 3>{{0.0, 90, 90.0}});
+                    newArrow->setScale(std::array<float, 3>{{1.25, 1.25, 1.25}});
+                    newArrow->setTexture(std::make_shared<Color>(Color::RGBA((int8_t)255,(int8_t)255,(int8_t)255,(int8_t)255)));
+                    arrowMap[object] = newArrow;
+                    Context::get()->getScene().add(newArrow);
+                }
+            }else if (object->getStatus() == DetectionObject::Status::Disappeared) {
+                std::map<std::shared_ptr<DetectionObject>,std::shared_ptr<ARObject> >::iterator i = arrowMap.find(object);
+                if (i != arrowMap.end()) {
+                    std::shared_ptr<ARObject> arrow = i->second;
+                    arrow->setParent(nullptr);
+                    Context::get()->getScene().remove(arrow);
+                    arrowMap.erase(object);
+                }
             }
         }
 //        if(speed_of_car<1.4){
@@ -321,31 +326,38 @@ private:
 
 class DetectionObjectSampleARApp: public Application {
 
-
     virtual void onStart() {
+
+        //showDashboard();
         detectionObjectListener = std::make_shared<DetectionObjectListener>();
         speedCheckListener = std::make_shared<CheckSpeedingListener>();
+        dashboardSpeedListener = std::make_shared<DashboardSpeedListener>();
         scoreTracker = std::make_shared<ScoreTracker>();
         detectionObjectListener->SetScoreTracker(scoreTracker);
         speedCheckListener->SetScoreTracker(scoreTracker);
         Context::get()->getScene().registerDetectionObjectListener(detectionObjectListener);
         Context::get()->getVehicleState().registerSpeedChangeListener(speedCheckListener);
+        Context::get()->getVehicleState().registerSpeedChangeListener(dashboardSpeedListener);
+        dashboardSpeedListener->showDashboard();
         LOGI("ON START COMPLETE");
     }
 
     virtual void onStop() {
         Context::get()->getScene().unregisterDetectionObjectListener(detectionObjectListener);
         Context::get()->getVehicleState().unregisterSpeedChangeListener(speedCheckListener);
+        Context::get()->getVehicleState().unregisterSpeedChangeListener(speedCheckListener);
         scoreTracker->SaveReport();
         LOGI("FINAL SCORE: %f", scoreTracker->CalcTotalScore());
         detectionObjectListener.reset();
         speedCheckListener.reset();
+        dashboardSpeedListener.reset();
         scoreTracker.reset();
         LOGI("ON STOP COMPLETE");
     }
 private:
     std::shared_ptr<DetectionObjectListener> detectionObjectListener;
     std::shared_ptr<CheckSpeedingListener> speedCheckListener;
+    std::shared_ptr<DashboardSpeedListener> dashboardSpeedListener;
     std::shared_ptr<ScoreTracker> scoreTracker;
 };
 
