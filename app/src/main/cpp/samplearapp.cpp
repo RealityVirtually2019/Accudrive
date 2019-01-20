@@ -32,10 +32,12 @@ public:
     std::shared_ptr<ARObject> arObject;
 
 
+    std::shared_ptr<ARObject> parkingObject;
+
     /*
      * PARKING VARIABLES
      */
-    int start_park_time = 0;
+    time_t start_park_time;
 
     // Time checker
     time_t my_time;
@@ -87,25 +89,50 @@ public:
         LOGI("Displayed");
     }
 
+
+    void showParking(){
+        if(parkingObject == nullptr){
+            std::shared_ptr<Mesh> arrowMesh = ResourceHelper::loadMesh("correctedPakr5.obj");
+            parkingObject = std::make_shared<ARObject>("parkingObject",Context::get()->getScene().getCamera());
+            parkingObject->setMesh(arrowMesh);
+            parkingObject->setPose(Pose(0, 0, -10 ));
+            parkingObject->setRotation(std::array<float, 3>{{90.0 ,0.0, 180.0}});
+            parkingObject->setScale(std::array<float, 3>{{0.5, 0.5, 0.5}});
+            parkingObject->setTexture(std::make_shared<Color>(Color::Palette::Red));
+            Context::get()->getScene().add(parkingObject);
+        }
+        LOGI("Displayed");
+    }
+
+    void RemoveParking(){
+        if(parkingObject!= nullptr){
+            Context::get()->getScene().remove(parkingObject);
+            LOGI("PARKING OBJECT IS NULL");
+            parkingObject = nullptr;
+        }
+    }
+
     void changed(std::shared_ptr<DetectionObject> object) {
 
         /* CHECK PARKING TIME
          * TIME FOR PARKING DETECTION: 30 SECONDS (CAN BE ADJUSTED ACCORDING TO REQUIREMENTS)
          */
 
-        //int is3DwarningVisible=0;
+        //int is 3D warning Visible=0;
 
-        if(start_park_time>30 && !parkingFlag){
-            LOGI("Your in parking mode");
-            parkingFlag = true;
-            scoreTracker->AddScore(PARKING);
-        }
 
 
         /* FEATURE 1 : TRAFFIC LIGHT VIOLATION CODE START:
          *
          */
         double speed_of_car = 0;
+
+
+        if(Context::get()->getVehicleState().getSpeed()>0)
+        {
+            RemoveParking();
+        }
+
 
         if (object->getType() == DetectionObject::Type::TrafficLight) {
 
@@ -203,23 +230,49 @@ public:
             }
 
         }
+        else if(object->getType() == DetectionObject::Type::ParkingPlace) {
+            /*
+             FEATURE 2 : VALID PARKING LOGIC
+             */
+            double parkDist = distanceEarth(object->getPose().latitude, object->getPose().longitude, Context::get()->getVehicleState().getPose().latitude, Context::get()->getVehicleState().getPose().longitude);
+            if (Context::get()->getVehicleState().getSpeed() > 0) {
+                start_park_time = time(NULL);
+                parkingFlag = false;
 
-        /*
-         FEATURE 2 : PARKING VIOLATION LOGIC
-         */
+                //char* current_time = ctime(&my_time);
+                //std::string str(current_time);
+                //std::string seconds = str.substr(17,2);
+                // = std::stoi(seconds,nullptr,10);
+                //LOGI("%d", sec);
+            } else if (Context::get()->getVehicleState().getSpeed() == 0) {
+                time_t currentTime = time(NULL);
+                double parkTime = difftime(currentTime, start_park_time);
+                LOGI("Current Park Time: %f", parkTime);
+                if (parkTime > 10 && parkingFlag == false)
+                {
+                    parkingFlag = true;
+                    if(parkDist < 0.018)
+                    {
+                        scoreTracker->AddScore(PARKING);
+                        LOGI("You are in good parking mode. Distance: %f", parkDist);
 
-        if (object->getType() != DetectionObject::Type::ParkingPlace && Context::get()->getVehicleState().getSpeed()==0){
-            my_time = time(NULL);
-            char* current_time = ctime(&my_time);
-            std::string str(current_time);
-            std::string seconds = str.substr(17,2);
-            start_park_time = std::stoi(seconds,nullptr,10);
-            //LOGI("%d", sec);
-        }else if (parkingFlag == true &&  Context::get()->getVehicleState().getSpeed() > 0){
-            start_park_time=0;
-            parkingFlag = false;
+                    }
+                    else {
+                        scoreTracker->SubtractScore(PARKING);
+                        LOGI("You are in bad parking mode. Distance: %f", parkDist);
+                        showParking();
+                    }
+                }
+
+            }
+
+
         }
+        //else
+        //{
+            //double parkDist = distanceEarth(object->getPose().latitude, object->getPose().longitude, Context::get()->getVehicleState().getPose().latitude, Context::get()->getVehicleState().getPose().longitude);
 
+        //}
         /*
          PARKING LOGIC ENDS
          */
