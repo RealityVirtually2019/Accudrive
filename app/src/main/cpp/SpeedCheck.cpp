@@ -14,7 +14,7 @@ void CheckSpeedingListener::changed(const std::shared_ptr<double> speed) {
     {
         isSpeeding = true;
         LOGI("Speeding!! Current speed: %f", *speed);
-        scoreTracker->SubtractScore(SPEEDING, 100);
+        scoreTracker->SubtractScore(SPEEDING);
         showStop();
     }
     else if(*speed <= speedLimit && isSpeeding)

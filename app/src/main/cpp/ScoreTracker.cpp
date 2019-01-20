@@ -4,24 +4,24 @@
 #include "SpeedCheck.h"
 
 ScoreTracker::ScoreTracker() {
-    scoreMap[SPEEDING] = 100.0;
-    scoreMap[PARKING] = 100.0;
-    scoreMap[LANE_CHANGE] = 100.0;
-    scoreMap[TRAFFIC_SIGNAL] = 100.0;
+    scoreMap[SPEEDING] = 250.0;
+    scoreMap[PARKING] = 250.0;
+    scoreMap[LANE_CHANGE] = 250.0;
+    scoreMap[TRAFFIC_SIGNAL] = 250.0;
 
-    scoreWeightMap[SPEEDING] = 1.0;
-    scoreWeightMap[PARKING] = 1.0;
-    scoreWeightMap[LANE_CHANGE] = 1.0;
-    scoreWeightMap[TRAFFIC_SIGNAL] = 1.0;
+    scoreWeightMap[SPEEDING] = 50.0;
+    scoreWeightMap[PARKING] = 35.0;
+    scoreWeightMap[LANE_CHANGE] = 25.0;
+    scoreWeightMap[TRAFFIC_SIGNAL] = 100.0;
 }
 
-void ScoreTracker::AddScore(ScoreFactor factor, double score) {
-    scoreMap[factor] += score * scoreWeightMap[factor];
+void ScoreTracker::AddScore(ScoreFactor factor) {
+    scoreMap[factor] += scoreWeightMap[factor];
     LOGI("Score Increased! New score: %f", scoreMap[factor]);
 }
 
-void ScoreTracker::SubtractScore(ScoreFactor factor, double score) {
-    scoreMap[factor] -= score * scoreWeightMap[factor];
+void ScoreTracker::SubtractScore(ScoreFactor factor) {
+    scoreMap[factor] -= scoreWeightMap[factor];
     LOGI("Score Lost... New score: %f", scoreMap[factor]);
 }
 

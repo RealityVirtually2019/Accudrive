@@ -116,7 +116,7 @@ public:
                     LOGI("You crossed the red light.");
                     //initHUDModel();
                     showStop();
-                    scoreTracker->SubtractScore(TRAFFIC_SIGNAL, 100);
+                    scoreTracker->SubtractScore(TRAFFIC_SIGNAL);
                     canRunLight = false;
                 }else if(speed_of_car<1.4){
                     if (arObject != nullptr) {
