@@ -23,6 +23,7 @@ public:
     void RemoveDashboard();
 private:
     std::shared_ptr<ARObject> Dashboard1;
+    std::shared_ptr<ARObject> Dashboard3;
 };
 
 

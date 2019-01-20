@@ -9,7 +9,7 @@ CheckSpeedingListener::CheckSpeedingListener()
 
 void CheckSpeedingListener::changed(const std::shared_ptr<double> speed) {
 
-    //LOGI("Current speed: %f Speed Limit:%f IsSpeeding:%d", *speed, speedLimit,isSpeeding);
+    LOGI("Current speed: %f Speed Limit:%f IsSpeeding:%d", *speed, speedLimit,isSpeeding);
     if(*speed > speedLimit && isSpeeding == false)
     {
         isSpeeding = true;
