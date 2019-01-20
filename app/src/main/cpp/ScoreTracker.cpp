@@ -39,7 +39,7 @@ void ScoreTracker::SaveReport() {
 
     std::string reportString = "TotalScore: " + std::to_string(totalScore) +
             "\nSpeed Score: " + std::to_string(scoreMap[SPEEDING]) +
-            "\nParking: " + std::to_string(scoreMap[SPEEDING]) +
+            "\nParking: " + std::to_string(scoreMap[PARKING]) +
             "\nLane Change: " + std::to_string(scoreMap[LANE_CHANGE]) +
             "\nTraffic Signal: " + std::to_string(scoreMap[TRAFFIC_SIGNAL]);
 
